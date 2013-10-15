@@ -18,11 +18,11 @@ public class ConnectionDatabase {
 			connection = DriverManager.getConnection(url, user, password);
 			System.out.println("Conexão com banco de dados estabelecida!");
 
-			String sql = "insert into account (active, description) values (?, ?)";
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setBoolean(1, true);
-			statement.setString(2, "Dinheiro");
-			statement.executeUpdate();
+//			String sql = "insert into account (active, description) values (?, ?)";
+//			PreparedStatement statement = connection.prepareStatement(sql);
+//			statement.setBoolean(1, true);
+//			statement.setString(2, "Dinheiro");
+//			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println("Erro ao conectar com o banco de dados!");
