@@ -1,13 +1,11 @@
 package financialcontrolsystem.view;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideTabbedPane;
@@ -21,24 +19,15 @@ public class FrameMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unused")
 	private FrameMainActions frameMainActions;
 
 	private Container panelMain;
 	private JideTabbedPane tabbedPaneMain;
-	
-	private PanelTabOverview panelTabOverview;
-	private PanelTabClients panelTabClients;
-
+	private JPanel panelTabOverview;
+	private JPanel panelTabClients;
 	private JMenuBar menuBar;
 	private JMenu menuCadastre;
-	private JMenu menuHelp;
-	private JMenu menuCadastreClient;
-	
-	private JMenuItem itemNewCadastreClient;
-	private JMenuItem itemEditCadastreClient;
-	private JMenuItem itemRemoveCadastreClient;
-	private JMenuItem itemListCadastreClient;
-	private JMenuItem itemExit;
 
 	/******************************************************************************
 	 * CONTRUTOR. O CONSTRUTOR RECEBE COMO PARÂMETRO DE ENTRADA A INTERFACE
@@ -52,28 +41,27 @@ public class FrameMain extends JFrame {
 
 	private void init() {
 		
-		setTitle("Sistema");
+		setTitle("Sistema de controle financeiro");
 		setResizable(true);								// PERMITE SE A TELA PODERÁ SER RENDERIZADA E SE PODERÁ SER MAXIMIZADA.
 		setExtendedState(MAXIMIZED_BOTH);				// INICIANDO A JANELA MAXIMIZADA.
 		setSize(800, 600);								// DEFININDO O TAMANHO DA JANELA CASO NÃO ESTEJA MAXIMIZADA.
 		setLocationRelativeTo(null);					// DEFINE QUE A TELA FIQUE NO CENTRO CASO NÃO ESTEJA MAXIMIZADA.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// DEFINE QUA SERÁ A OPERAÇÃO PADRÃO DO BOTÃO FECHAR.
-		
 		panelMain = getContentPane();					// PEGANDO O PAINEL DA FRAME.		
 		setJMenuBar(getMyMenuBar());					// DEFININDO A BARRA DE MENU.
-		
 		tabbedPaneMain = new JideTabbedPane();
-		panelTabOverview = new PanelTabOverview();
-		panelTabClients = new PanelTabClients();
-		
-		tabbedPaneMain.addTab("Visão Geral", panelTabOverview.getPanelTabOverview());
-		tabbedPaneMain.addTab("Clientes", panelTabClients.getPanelTabClients());
+		panelTabOverview = new PanelTabOverview().getPanelTabOverview();
+		panelTabClients = new PanelTabClients().getPanelTabClients();
+		tabbedPaneMain.addTab("Visão Geral", panelTabOverview);
+		tabbedPaneMain.addTab("Clientes", panelTabClients);		
+		tabbedPaneMain.setSelectedComponent(panelTabOverview);
 		
 		LookAndFeelFactory.installJideExtension(LookAndFeelFactory.ECLIPSE3X_STYLE);
 		tabbedPaneMain.setTabShape(JideTabbedPane.SHAPE_ECLIPSE3X);
 		tabbedPaneMain.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
 		
 		panelMain.add(tabbedPaneMain);
+		
 	}
 
 	/******************************************************************************
@@ -84,7 +72,6 @@ public class FrameMain extends JFrame {
 			menuBar = new JMenuBar();
 
 			menuBar.add(getMenuCadastre());
-			menuBar.add(getMenuAjuda());
 		}
 		return menuBar;
 	}
@@ -94,97 +81,10 @@ public class FrameMain extends JFrame {
 	 ******************************************************************************/
 	private JMenu getMenuCadastre() {
 		if (menuCadastre == null) {
-			menuCadastre = new JMenu("Cadastros");
+			menuCadastre = new JMenu("Opções");
 
-			menuCadastre.add(getMenuClients());
+			menuCadastre.add(new MenuAccount().getMenuAccount());
 		}
 		return menuCadastre;
-	}
-
-	private JMenu getMenuAjuda() {
-		if (menuHelp == null) {
-			menuHelp = new JMenu("Ajuda");
-
-			menuHelp.add(getItemExit());
-		}
-		return menuHelp;
-	}
-
-	/******************************************************************************
-	 * SUBMENUS
-	 ******************************************************************************/
-	private JMenu getMenuClients() {
-		if (menuCadastreClient == null) {
-			menuCadastreClient = new JMenu("Clientes");
-
-			menuCadastreClient.add(getItemNewCadastreClient());
-			menuCadastreClient.add(getItemEditCadastreClient());
-			menuCadastreClient.add(getItemRemoveCadastreClient());
-			menuCadastreClient.add(getItemListCadastreClient());
-		}
-		return menuCadastreClient;
-	}
-
-	/******************************************************************************
-	 * ITENS DO MENU
-	 ******************************************************************************/
-	private JMenuItem getItemNewCadastreClient() {
-		if (itemNewCadastreClient == null) {
-			itemNewCadastreClient = new JMenuItem("Novo");
-
-			itemNewCadastreClient.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					tabbedPaneMain.setSelectedComponent(panelTabClients.getPanelTabClients());
-				}
-			});
-		}
-		return itemNewCadastreClient;
-	}
-
-
-	private JMenuItem getItemEditCadastreClient() {
-		if (itemEditCadastreClient == null) {
-			itemEditCadastreClient = new JMenuItem("Alterar");
-		}
-		return itemEditCadastreClient;
-	}
-
-	private JMenuItem getItemRemoveCadastreClient() {
-		if (itemRemoveCadastreClient == null) {
-			itemRemoveCadastreClient = new JMenuItem("Excluir");
-		}
-		return itemRemoveCadastreClient;
-	}
-	
-	private JMenuItem getItemListCadastreClient() {
-		if (itemListCadastreClient == null) {
-			itemListCadastreClient = new JMenuItem("Listar");
-			
-			itemListCadastreClient.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent arg0) {					
-					// NÃO ESTÁ FAZENDO NADA.
-					
-				}
-			});
-		}
-		return itemListCadastreClient;
-	}
-
-	private JMenuItem getItemExit() {
-		if (itemExit == null) {
-			itemExit = new JMenuItem("Sair");
-
-			itemExit.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					frameMainActions.itemExitAction();
-				}
-			});
-		}
-		return itemExit;
 	}
 }
