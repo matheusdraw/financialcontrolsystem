@@ -29,7 +29,7 @@ public class MenuAccount {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					CadastreAccount c = new CadastreAccount();
+					FrameNewCadastreAccount c = new FrameNewCadastreAccount();
 					c.setVisible(true);
 				}
 			});
