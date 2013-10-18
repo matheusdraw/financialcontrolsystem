@@ -1,10 +1,12 @@
 package financialcontrolsystem.view;
 
 import java.awt.Container;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.jidesoft.plaf.LookAndFeelFactory;
@@ -61,6 +63,18 @@ public class FrameMain extends JFrame {
 		tabbedPaneMain.setColorTheme(JideTabbedPane.COLOR_THEME_WIN2K);
 		
 		panelMain.add(tabbedPaneMain);
+		
+		addWindowListener( new WindowAdapter() {			
+			@Override
+			public void windowClosing(WindowEvent e) {				
+				int result = JOptionPane.showConfirmDialog(null, "Deseja encerrar o sistema?", "Sistema de controle financeiro", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (result == JOptionPane.YES_OPTION) {
+					dispose();
+				} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
+					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+			}			
+		});
 		
 	}
 
