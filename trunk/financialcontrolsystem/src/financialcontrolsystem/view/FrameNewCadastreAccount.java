@@ -43,7 +43,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel labelNameAccont; 				// NOME DA CONTA
 	private JFormattedTextField fieldNameAccount;			// CAMPO PARA INFORMAR O NOME DA CONTA
 	private JLabel labelInitialValue; 				// VALOR INICIAL DA CONTA
-	private JFormattedTextField fieldInitialValue;			// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
+	private JTextField fieldInitialValue;			// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
 	private JLabel labelDateInitialValue; 			// DATA DO VALOR INICIAL DA CONTA
 	private JFormattedTextField fieldDateInitialValue;		// CAMPO PARA INFORMAR O VALOR DA DATA EM QUE FOI INFORMADO O SALDO INICIAL
 	private JTextArea areaInfo;						// ARÉA PARA DESCREVER INFORMAÇÕES
@@ -279,73 +279,13 @@ public class FrameNewCadastreAccount extends JDialog {
 		return labelInitialValue;
 	}
 
-	private JFormattedTextField getTextInitialValue() {
+	private JTextField getTextInitialValue() {
 		if (fieldInitialValue == null) {
 
-			fieldInitialValue = new JFormattedTextField();
+			fieldInitialValue = new JTextField();
+			fieldInitialValue.setDocument(new FormatNumericField());
 			//fieldInitialValue.setHorizontalAlignment(JTextField.RIGHT);
-			fieldInitialValue.addKeyListener(new KeyListener() {
-				
-				@Override
-				public void keyTyped(KeyEvent e) {
-
-					if (fieldInitialValue.getText().length() > 10) {
-						e.consume();
-					}
-				}
-				
-				@Override
-				public void keyReleased(KeyEvent e) {
-					
-					fieldInitialValue.setText(fieldInitialValue.getText().replaceAll("[^0-9 && ,.]", ""));					
-					StringBuffer stringBuffer = new StringBuffer(fieldInitialValue.getText());
-					
-					if (stringBuffer.length() == 2) {
-						stringBuffer.insert(1, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 3) {
-						stringBuffer.insert(1, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 4) {
-						stringBuffer.insert(2, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 5) {
-						stringBuffer.insert(3, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 6) {
-						stringBuffer.insert(1, ".");
-						stringBuffer.insert(5, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 7) {
-						stringBuffer.insert(2, ".");
-						stringBuffer.insert(6, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 8) {
-						stringBuffer.insert(3, ".");
-						stringBuffer.insert(7, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 9) {
-						stringBuffer.insert(1, ".");
-						stringBuffer.insert(5, ".");
-						stringBuffer.insert(9, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 10) {
-						stringBuffer.insert(2, ".");
-						stringBuffer.insert(6, ".");
-						stringBuffer.insert(10, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					} else if (stringBuffer.length() == 11) {
-						stringBuffer.insert(3, ".");
-						stringBuffer.insert(7, ".");
-						stringBuffer.insert(11, ",");
-						fieldInitialValue.setText(stringBuffer.toString());
-					}
-				}
-				
-				@Override
-				public void keyPressed(KeyEvent e) {
-				}
-			});	
+			
 		}
 		return fieldInitialValue;
 	}
@@ -359,7 +299,9 @@ public class FrameNewCadastreAccount extends JDialog {
 	
 	private JFormattedTextField getTextDateInitialValue() {
 		if (fieldDateInitialValue == null) {
-			fieldDateInitialValue = new JFormattedTextField();			
+			FormatMaskField f = new FormatMaskField();
+			fieldDateInitialValue = new JFormattedTextField(f.getMaskDateField());
+			
 		}
 		return fieldDateInitialValue;
 	}
