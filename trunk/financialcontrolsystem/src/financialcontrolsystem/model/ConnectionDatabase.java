@@ -11,7 +11,7 @@ public class ConnectionDatabase {
 	public Connection createConnection() {
 		String url = "jdbc:postgresql://localhost:5432/financialcontrolsystem";
 		String user = "postgres";
-		String password = "1583141aehcada";
+		String password = "*seugi_elagem2013";
 
 		try {
 			connection = DriverManager.getConnection(url, user, password);
