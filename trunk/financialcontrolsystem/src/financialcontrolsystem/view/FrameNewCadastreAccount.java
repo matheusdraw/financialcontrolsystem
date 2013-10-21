@@ -5,9 +5,18 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,30 +24,42 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
+
+import financialcontrolsystem.model.AccountTO;
+import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
 
 public class FrameNewCadastreAccount extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-
-	private Container panelMain;
-	private JPanel panelForm;
-	private JPanel panelInfo;
-
-	private JLabel labelNomeAccont; 				// NOME DA CONTA
-	private JTextField fieldNomeAccount;			// CAMPO PARA INFORMAR O NOME DA CONTA
-	private JLabel labelInitialValue; 				// VALOR INICIAL DA CONTA
-	private JTextField fielddInitialValue;			// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
-	private JLabel labelDateInitialValue; 			// DATA DO VALOR INICIAL DA CONTA
-	private JTextField fieldDateInitialValue;		// CAMPO PARA INFORMAR O VALOR DA DATA EM QUE FOI INFORMADO O SALDO INICIAL
-	private JTextArea areaInfo;						// ARÉA PARA DESCREVER INFORMAÇÕES
+	private FrameNewCadastreAccountActions frameNewCadastreAccountActions;
 	
-	public FrameNewCadastreAccount() {
+	private Container panelMain;
+	private JPanel panelForm;						// PAINEL COM OS DADOS DO FORMULÁRIO
+	private JPanel panelInfo;						// PAINEL DE INFORMAÇÕES
+	private JPanel panelButtons;					// PAINEL COM BOTÕES
+	private JLabel labelNameAccont; 				// NOME DA CONTA
+	private JFormattedTextField fieldNameAccount;			// CAMPO PARA INFORMAR O NOME DA CONTA
+	private JLabel labelInitialValue; 				// VALOR INICIAL DA CONTA
+	private JFormattedTextField fieldInitialValue;			// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
+	private JLabel labelDateInitialValue; 			// DATA DO VALOR INICIAL DA CONTA
+	private JFormattedTextField fieldDateInitialValue;		// CAMPO PARA INFORMAR O VALOR DA DATA EM QUE FOI INFORMADO O SALDO INICIAL
+	private JTextArea areaInfo;						// ARÉA PARA DESCREVER INFORMAÇÕES
+	private JButton buttonSalvar;					// BOTÃO PARA SALVAR CADASTRO
+	private JButton buttonCancel;					// BOTÃO PARA CANCELAR O NOVO OU EDIÇÃO DO CADASTRO
+	
+	private AccountTO accountTO;
+	
+	public FrameNewCadastreAccount(FrameNewCadastreAccountActions frameNewCadastreAccountActions) {
+		this.frameNewCadastreAccountActions = frameNewCadastreAccountActions;
 		init();
 	}
 
 	private void init() {
 		setTitle("Cadastro de contas");
-		setSize(550, 280);
+		setSize(550, 260);
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setModal(true);	
@@ -46,12 +67,7 @@ public class FrameNewCadastreAccount extends JDialog {
 		addWindowListener( new WindowAdapter() {			
 			@Override
 			public void windowClosing(WindowEvent e) {				
-				int result = JOptionPane.showConfirmDialog(null, "Deseja fechar?", "Cadastro de contas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (result == JOptionPane.YES_OPTION) {
-					dispose();
-				} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
-					setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-				}
+				getOptionExit();
 			}			
 		});
 
@@ -61,6 +77,20 @@ public class FrameNewCadastreAccount extends JDialog {
 		Constraints constraints = new Constraints();
 
 		panelMain.setLayout(gridBagLayout);
+
+		constraints.setConstraints(
+		/*INSETS*/ new Insets(5, 5, 5, 5), 
+		/*ANCHOR*/ GridBagConstraints.NORTHWEST,
+		/*FILL*/ GridBagConstraints.NONE, 
+		/*GRIDX*/ GridBagConstraints.RELATIVE,
+		/*GRIDY*/ GridBagConstraints.RELATIVE,
+		/*GRIDWIDTH*/ 1,
+		/*GRIDHEIGTH*/ 1,
+		/*WEIGHTX*/ 1,
+		/*WEIGHTY*/ 1,
+		/*IPADX*/ 0,
+		/*IPADY*/ 0);
+		panelMain.add(getPanelInfo(), constraints);
 		
 		constraints.setConstraints(
 		/*INSETS*/ new Insets(5, 5, 5, 5), 
@@ -76,19 +106,20 @@ public class FrameNewCadastreAccount extends JDialog {
 		/*IPADY*/ 0);		
 		panelMain.add(getPanelForm(), constraints);
 		
+				
 		constraints.setConstraints(
 		/*INSETS*/ new Insets(5, 5, 5, 5), 
-		/*ANCHOR*/ GridBagConstraints.NORTHEAST,
+		/*ANCHOR*/ GridBagConstraints.SOUTHEAST,
 		/*FILL*/ GridBagConstraints.NONE, 
-		/*GRIDX*/ GridBagConstraints.RELATIVE,
-		/*GRIDY*/ GridBagConstraints.RELATIVE,
+		/*GRIDX*/ 1,
+		/*GRIDY*/ 1,
 		/*GRIDWIDTH*/ 1,
 		/*GRIDHEIGTH*/ 1,
-		/*WEIGHTX*/ 1,
-		/*WEIGHTY*/ 1,
+		/*WEIGHTX*/ 0,
+		/*WEIGHTY*/ 0,
 		/*IPADX*/ 0,
 		/*IPADY*/ 0);
-		panelMain.add(getPanelInfo(), constraints);
+		panelMain.add(getPanelButtons(), constraints);
 	}
 
 	private JPanel getPanelForm() {
@@ -196,18 +227,49 @@ public class FrameNewCadastreAccount extends JDialog {
 		return panelInfo;
 	}
 	
-	private JLabel getLabelNomeAccont() {
-		if (labelNomeAccont == null) {
-			labelNomeAccont = new JLabel("Nome da conta:");
+	private JPanel getPanelButtons() {
+		if (panelButtons == null) {
+			panelButtons = new JPanel();
+			panelButtons.add(getButtonSave());
+			panelButtons.add(getButtonCancel());
 		}
-		return labelNomeAccont;
+		return panelButtons;
 	}
 	
-	private JTextField getTextNomeAccount() {
-		if (fieldNomeAccount == null) {
-			fieldNomeAccount = new JTextField();
+	private JLabel getLabelNomeAccont() {
+		if (labelNameAccont == null) {
+			labelNameAccont = new JLabel("Nome da conta:");
 		}
-		return fieldNomeAccount;
+		return labelNameAccont;
+	}
+	
+	private JFormattedTextField getTextNomeAccount() {
+		if (fieldNameAccount == null) {
+			fieldNameAccount = new JFormattedTextField();
+			
+			fieldNameAccount.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void keyReleased(KeyEvent arg0) {
+					
+					
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+		}
+		return fieldNameAccount;
 	}
 
 	private JLabel getLabelInitialValue() {
@@ -217,11 +279,75 @@ public class FrameNewCadastreAccount extends JDialog {
 		return labelInitialValue;
 	}
 
-	private JTextField getTextInitialValue() {
-		if (fielddInitialValue == null) {
-			fielddInitialValue = new JTextField();
+	private JFormattedTextField getTextInitialValue() {
+		if (fieldInitialValue == null) {
+
+			fieldInitialValue = new JFormattedTextField();
+			//fieldInitialValue.setHorizontalAlignment(JTextField.RIGHT);
+			fieldInitialValue.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+
+					if (fieldInitialValue.getText().length() > 10) {
+						e.consume();
+					}
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					
+					fieldInitialValue.setText(fieldInitialValue.getText().replaceAll("[^0-9 && ,.]", ""));					
+					StringBuffer stringBuffer = new StringBuffer(fieldInitialValue.getText());
+					
+					if (stringBuffer.length() == 2) {
+						stringBuffer.insert(1, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 3) {
+						stringBuffer.insert(1, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 4) {
+						stringBuffer.insert(2, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 5) {
+						stringBuffer.insert(3, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 6) {
+						stringBuffer.insert(1, ".");
+						stringBuffer.insert(5, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 7) {
+						stringBuffer.insert(2, ".");
+						stringBuffer.insert(6, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 8) {
+						stringBuffer.insert(3, ".");
+						stringBuffer.insert(7, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 9) {
+						stringBuffer.insert(1, ".");
+						stringBuffer.insert(5, ".");
+						stringBuffer.insert(9, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 10) {
+						stringBuffer.insert(2, ".");
+						stringBuffer.insert(6, ".");
+						stringBuffer.insert(10, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					} else if (stringBuffer.length() == 11) {
+						stringBuffer.insert(3, ".");
+						stringBuffer.insert(7, ".");
+						stringBuffer.insert(11, ",");
+						fieldInitialValue.setText(stringBuffer.toString());
+					}
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+				}
+			});	
 		}
-		return fielddInitialValue;
+		return fieldInitialValue;
 	}
 	
 	private JLabel getLabelDateInitialValue() {
@@ -231,9 +357,9 @@ public class FrameNewCadastreAccount extends JDialog {
 		return labelDateInitialValue;
 	}
 	
-	private JTextField getTextDateInitialValue() {
+	private JFormattedTextField getTextDateInitialValue() {
 		if (fieldDateInitialValue == null) {
-			fieldDateInitialValue = new JTextField();
+			fieldDateInitialValue = new JFormattedTextField();			
 		}
 		return fieldDateInitialValue;
 	}
@@ -247,13 +373,61 @@ public class FrameNewCadastreAccount extends JDialog {
 					+ "\npodendo ser contas bancárias"
 					+ "\nou não."
 					+ "\n\nExemplos de contas:"
-					+ "\nBradesco, Caixa, Itaú, Carteira,"
+					+ "\nBradesco, Caixa, Itaú, Carteira, "
 					+ "\nCofre.";
 			areaInfo.setText(teste);
 			areaInfo.setBorder(new TitledBorder(new LineBorder(Color.GRAY, 1, false), "Informações"));
 			areaInfo.setEnabled(false);
 		}
 		return areaInfo;
+	}
+	
+	private JButton getButtonSave() {
+		if (buttonSalvar == null) {
+			buttonSalvar = new JButton("Salvar");
+			
+			buttonSalvar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {					
+					actionButtonSave();
+					
+				}
+			});
+		}
+		return buttonSalvar;
+	}
+	
+	private JButton getButtonCancel() {
+		if (buttonCancel == null) {
+			buttonCancel = new JButton("Cancelar");
+			
+			buttonCancel.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					getOptionExit();
+				}
+			});
+		}
+		return buttonCancel;
+	}
+	
+	private void getOptionExit() {
+		int result = JOptionPane.showConfirmDialog(null, "Deseja fechar?", "Cadastro de contas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (result == JOptionPane.YES_OPTION) {
+			dispose();
+		} else if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) {
+			setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		}
+	}
+	
+	public void actionButtonSave() {
+		accountTO = new AccountTO();
+		accountTO.setNameAccount(fieldNameAccount.getText());
+		accountTO.setInitialValue(Float.parseFloat(fieldInitialValue.getText()));
+		accountTO.setDateInitialValue(fieldDateInitialValue.getText());		
+		frameNewCadastreAccountActions.buttonSave(accountTO);
 	}
 	
 }

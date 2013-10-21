@@ -2,10 +2,8 @@ package financialcontrolsystem.controller;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.Silver;
-
 import financialcontrolsystem.view.FrameMain;
 import financialcontrolsystem.view.action.FrameMainActions;
 
@@ -15,6 +13,7 @@ import financialcontrolsystem.view.action.FrameMainActions;
 public class FrameMainControl implements FrameMainActions {
 	
 	private FrameMain frameMain;
+	private FrameNewCadastreAccountControl frameNewCadastreAccountControl;
 
 	public void initializeFrameMain() {
 		
@@ -50,10 +49,15 @@ public class FrameMainControl implements FrameMainActions {
 		frameMain = new FrameMain(this);
 		frameMain.setVisible(true);
 	}
-	
-	
+		
 	@Override
 	public void itemExitAction() {
 		System.exit(0);
+	}
+
+	@Override
+	public void itemNewAccount() {
+		frameNewCadastreAccountControl = new FrameNewCadastreAccountControl();
+		frameNewCadastreAccountControl.initializeFrameNewCadastreAccount();
 	}
 }

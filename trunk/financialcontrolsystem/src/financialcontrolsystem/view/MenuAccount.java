@@ -6,12 +6,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import financialcontrolsystem.view.action.FrameMainActions;
+
 public class MenuAccount {
 
 	private JMenu menuAccount;
 	private JMenuItem itemNewAccount;
+	private FrameMainActions frameMainActions;
 
-	public MenuAccount() {
+	public MenuAccount(FrameMainActions frameMainActions) {
+		this.frameMainActions = frameMainActions;
 		init();
 	}
 	
@@ -29,8 +33,7 @@ public class MenuAccount {
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					FrameNewCadastreAccount c = new FrameNewCadastreAccount();
-					c.setVisible(true);
+					frameMainActions.itemNewAccount();
 				}
 			});
 		}

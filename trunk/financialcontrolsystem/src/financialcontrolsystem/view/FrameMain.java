@@ -96,8 +96,7 @@ public class FrameMain extends JFrame {
 	private JMenu getMenuCadastre() {
 		if (menuCadastre == null) {
 			menuCadastre = new JMenu("Opções");
-
-			menuCadastre.add(new MenuAccount().getMenuAccount());
+			menuCadastre.add(new MenuAccount(this.frameMainActions).getMenuAccount());
 		}
 		return menuCadastre;
 	}
