@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class AccountTO {
 	private String nameAccount;
+	private String password;
 	private Float initialValue;
 	private Date dateInitialValue;
 	private SimpleDateFormat sdf;
@@ -20,6 +21,14 @@ public class AccountTO {
 
 	public void setNameAccount(String nameAccount) {
 		this.nameAccount = nameAccount;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Float getInitialValue() {
