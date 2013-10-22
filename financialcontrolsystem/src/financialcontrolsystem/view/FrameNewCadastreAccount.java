@@ -11,9 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -24,9 +21,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
 
 import financialcontrolsystem.model.AccountTO;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
@@ -281,11 +275,8 @@ public class FrameNewCadastreAccount extends JDialog {
 
 	private JTextField getTextInitialValue() {
 		if (fieldInitialValue == null) {
-
 			fieldInitialValue = new JTextField();
-			fieldInitialValue.setDocument(new FormatNumericField());
-			//fieldInitialValue.setHorizontalAlignment(JTextField.RIGHT);
-			
+			fieldInitialValue.setDocument(new FormatNumericField(15, 2));
 		}
 		return fieldInitialValue;
 	}
