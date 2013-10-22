@@ -3,13 +3,19 @@ package financialcontrolsystem.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class ConnectionDatabase {
+abstract class ConnectionDatabase {
 
-	Connection connection;
-
-	public Connection createConnection() {
-		String url = "jdbc:postgresql://localhost:5432/financialcontrolsystem";
+	private Connection connection = null;
+	private Statement statement = null;
+	
+	public ConnectionDatabase(){
+		this.createConnection();	
+	}
+	
+	protected Connection createConnection() {
+		String url = "jdbc:postgresql://localhost:5432/financialdb";
 		String user = "postgres";
 		String password = "*fin_2013";
 
@@ -23,5 +29,24 @@ public class ConnectionDatabase {
 		}
 		return connection;
 	}
-
+	
+	protected Statement getStatement() throws SQLException {
+		if(statement == null) {
+			statement = createConnection().createStatement();
+		}
+		return statement;
+	}
+	
+	protected void close() {
+		try {
+			if(statement != null){ 
+				statement.close();}
+			if(connection != null){ 
+				connection.close();}
+		} 
+		catch (Exception e) {
+			// se houve algum erro, uma exceção é gerada para informar o erro.
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
 }
