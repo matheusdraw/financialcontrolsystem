@@ -10,16 +10,16 @@ public class LoginDAO extends ConnectionDatabase {
 
 	private Connection connection = null;
 
-	//Adiciona um novo usuário
-	public void insertNewLogin(LoginTO accountTO) {
+	//Adiciona um novo usuário.
+	public void insertNewLogin(LoginTO loginTO) {
 
 		try {
-			String sqlNewAccount = "insert into usuarios (usuario, senha, ativo) values (?, ?, ?)";
+			String sqlNewLogin = "insert into usuarios (usuario, senha, ativo) values (?, ?, ?)";
 			PreparedStatement statement = connection
-					.prepareStatement(sqlNewAccount);
+					.prepareStatement(sqlNewLogin);
 
-			statement.setString(1, accountTO.getNameAccount());
-			statement.setString(2, accountTO.getPassword());
+			statement.setString(1, loginTO.getNameAccount());
+			statement.setString(2, loginTO.getPassword());
 			statement.setBoolean(3, true);
 			statement.executeUpdate();
 
@@ -29,20 +29,20 @@ public class LoginDAO extends ConnectionDatabase {
 		}
 	}
 	
-	//Retorna todos os cadastros
-		public void requestAllLogins(LoginTO accountTO) {
+	//Retorna todos os cadastros.
+		public void requestAllLogins(LoginTO loginTO) {
 
-			String sqlReqAcc = "select * from usuarios u";
+			String sqlReqLogin = "select * from usuarios u";
 
 			Statement statement;
 			try {
 				statement = getStatement();
-				ResultSet result = statement.executeQuery(sqlReqAcc);
-
+				ResultSet result = statement.executeQuery(sqlReqLogin);
+				
+				//Termina o while quando retorna todos os registros.
 				while (result.next()) {
-
-					accountTO.setNameAccount(result.getString("usuario"));
-					accountTO.setPassword(result.getString("senha"));
+					loginTO.setNameAccount(result.getString("usuario"));
+					loginTO.setPassword(result.getString("senha"));
 				}
 
 			} catch (SQLException e) {
@@ -51,20 +51,20 @@ public class LoginDAO extends ConnectionDatabase {
 			}
 		}
 
-	//Busca um cadastro de usuário específico
-	public void requestLogin(LoginTO accountTO) {
+	//Busca um cadastro de usuário específico.
+	public void requestLogin(LoginTO loginTO) {
 
-		String sqlReqAcc = "select * from usuarios u where u.usuario = '"+ accountTO.getNameAccount() + "'";
+		String sqlReqLogin = "select * from usuarios u where u.usuario = '"+ loginTO.getNameAccount() + "'";
 
 		Statement statement;
 		try {
 			statement = getStatement();
-			ResultSet result = statement.executeQuery(sqlReqAcc);
+			ResultSet result = statement.executeQuery(sqlReqLogin);
 
 			while (result.next()) {
 
-				accountTO.setNameAccount(result.getString("usuario"));
-				accountTO.setPassword(result.getString("senha"));
+				loginTO.setNameAccount(result.getString("usuario"));
+				loginTO.setPassword(result.getString("senha"));
 			}
 
 		} catch (SQLException e) {
