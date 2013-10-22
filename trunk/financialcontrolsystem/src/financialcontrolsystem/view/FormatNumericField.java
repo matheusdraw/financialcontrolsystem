@@ -24,12 +24,12 @@ public class FormatNumericField extends PlainDocument {
 	public void insertString(int offs, String str, AttributeSet a)
 			throws BadLocationException {
 
-//		if (getLength() == 0) {
-//			str = str.replaceAll("[^0-9 || -]", "");
-//		} else {
-//			str = str.replaceAll("[^0-9]", "");
-//		}
-		
+		// if (getLength() == 0) {
+		// str = str.replaceAll("[^0-9 || -]", "");
+		// } else {
+		// str = str.replaceAll("[^0-9]", "");
+		// }
+
 		str = str.replaceAll("[^0-9]", "");
 
 		StringBuffer content = new StringBuffer(getText(0, getLength()) + str);

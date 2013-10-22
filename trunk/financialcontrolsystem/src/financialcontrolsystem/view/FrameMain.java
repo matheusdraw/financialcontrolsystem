@@ -8,7 +8,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import com.jidesoft.plaf.LookAndFeelFactory;
 import com.jidesoft.swing.JideTabbedPane;
 
@@ -20,8 +19,6 @@ import financialcontrolsystem.view.action.FrameMainActions;
 public class FrameMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
-	@SuppressWarnings("unused")
 	private FrameMainActions frameMainActions;
 
 	private Container panelMain;
