@@ -1,11 +1,11 @@
 package financialcontrolsystem.controller;
 
-import financialcontrolsystem.model.AccountDAO;
+import financialcontrolsystem.model.LoginDAO;
 
 public class Runner {
 
 	public static void main(String[] args) {
-		AccountDAO account = new AccountDAO();
+		LoginDAO account = new LoginDAO();
 		
 		FrameMainControl FrameMainControl = new FrameMainControl();
 		FrameMainControl.initializeFrameMain();
