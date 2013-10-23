@@ -1,3 +1,30 @@
+/**
+Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the Balloon tip Developer Team nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE BALLOON TIP DEVELOPER TEAM BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package financialcontrolsystem.view;
 
 import java.awt.Color;
@@ -10,16 +37,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.Buffer;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToolTip;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.ColorUIResource;
+
+import com.jidesoft.tooltip.BalloonTip;
 
 import financialcontrolsystem.model.LoginTO;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
@@ -57,6 +92,8 @@ public class FrameNewCadastreAccount extends JDialog {
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setModal(true);	
+		
+		
 		
 		addWindowListener( new WindowAdapter() {			
 			@Override
@@ -114,6 +151,7 @@ public class FrameNewCadastreAccount extends JDialog {
 		/*IPADX*/ 0,
 		/*IPADY*/ 0);
 		panelMain.add(getPanelButtons(), constraints);
+	
 	}
 
 	private JPanel getPanelForm() {
@@ -247,7 +285,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel getLabelInfo () {
 		if (labelInfo == null) {
 			labelInfo = new JLabel("Campos com * (destacados em negrito) são obrigatórios.");
-			labelInfo.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
+			//labelInfo.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
 		}
 		return labelInfo;
 	}
@@ -255,7 +293,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel getLabelNomeAccont() {
 		if (labelNameAccont == null) {
 			labelNameAccont = new JLabel("Nome da conta*");
-			labelNameAccont.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
+			//labelNameAccont.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
 		}
 		return labelNameAccont;
 	}
@@ -271,7 +309,9 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel getLabelInitialValue() {
 		if (labelInitialValue == null) {
 			labelInitialValue = new JLabel("Valor inicial*");
-			labelInitialValue.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
+			labelInitialValue.setToolTipText("<html>Informe o valor inicial da conta."
+											+ "<br> Exemplo: 100,00 ou 0,10 </html>");
+			//labelInitialValue.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
 		}
 		return labelInitialValue;
 	}
@@ -287,16 +327,16 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel getLabelDateInitialValue() {
 		if (labelDateInitialValue == null) {
 			labelDateInitialValue = new JLabel("Data de lançamento");
-			labelDateInitialValue.setFont(new Font("", Font.ITALIC, 12));
+			//labelDateInitialValue.setFont(new Font("", Font.ITALIC, 12));
+			labelDateInitialValue.setToolTipText("<html>Informe a data do lançamento.");
 		}
 		return labelDateInitialValue;
 	}
 	
 	private JFormattedTextField getTextDateInitialValue() {
 		if (fieldDateInitialValue == null) {
-			FormatMaskField f = new FormatMaskField();
-			fieldDateInitialValue = new JFormattedTextField(f.getMaskDateField());
-			//fieldDateInitialValue.setBorder(new LineBorder(Color.BLACK, 2, false));
+			FormatMaskField formatMaskField = new FormatMaskField();
+			fieldDateInitialValue = new JFormattedTextField(formatMaskField.getMaskDateField());
 			
 		}
 		return fieldDateInitialValue;
@@ -316,7 +356,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			areaInfo.setText(teste);
 			areaInfo.setBorder(new TitledBorder(new LineBorder(Color.GRAY, 1, false), "Informações"));
 			areaInfo.setEnabled(false);
-			areaInfo.setFont(new Font("", Font.PLAIN, 12));
+			//areaInfo.setFont(new Font("", Font.PLAIN, 12));
 		}
 		return areaInfo;
 	}
@@ -341,8 +381,7 @@ public class FrameNewCadastreAccount extends JDialog {
 		if (buttonCancel == null) {
 			buttonCancel = new JButton("Cancelar");
 			
-			buttonCancel.addActionListener(new ActionListener() {
-				
+			buttonCancel.addActionListener(new ActionListener() {				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					getOptionExit();
