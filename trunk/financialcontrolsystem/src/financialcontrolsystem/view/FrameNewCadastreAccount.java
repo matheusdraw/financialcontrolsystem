@@ -2,16 +2,14 @@ package financialcontrolsystem.view;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -32,18 +30,19 @@ public class FrameNewCadastreAccount extends JDialog {
 	private FrameNewCadastreAccountActions frameNewCadastreAccountActions;
 	
 	private Container panelMain;
-	private JPanel panelForm;						// PAINEL COM OS DADOS DO FORMULÁRIO
-	private JPanel panelInfo;						// PAINEL DE INFORMAÇÕES
-	private JPanel panelButtons;					// PAINEL COM BOTÕES
-	private JLabel labelNameAccont; 				// NOME DA CONTA
-	private JFormattedTextField fieldNameAccount;			// CAMPO PARA INFORMAR O NOME DA CONTA
-	private JLabel labelInitialValue; 				// VALOR INICIAL DA CONTA
-	private JTextField fieldInitialValue;			// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
-	private JLabel labelDateInitialValue; 			// DATA DO VALOR INICIAL DA CONTA
+	private JPanel panelForm;								// PAINEL COM OS DADOS DO FORMULÁRIO
+	private JPanel panelInfo;								// PAINEL DE INFORMAÇÕES
+	private JPanel panelButtons;							// PAINEL COM BOTÕES
+	private JLabel labelInfo;								// INFORMAÇÃO SOBRE OS CAMPOS OBRIGATÓRIOS
+	private JLabel labelNameAccont; 						// NOME DA CONTA
+	private JTextField fieldNameAccount;					// CAMPO PARA INFORMAR O NOME DA CONTA
+	private JLabel labelInitialValue; 						// VALOR INICIAL DA CONTA
+	private JTextField fieldInitialValue;					// CAMPO PARA INFORMAR O VALOR INICIAL DA CONTA
+	private JLabel labelDateInitialValue; 					// DATA DO VALOR INICIAL DA CONTA
 	private JFormattedTextField fieldDateInitialValue;		// CAMPO PARA INFORMAR O VALOR DA DATA EM QUE FOI INFORMADO O SALDO INICIAL
-	private JTextArea areaInfo;						// ARÉA PARA DESCREVER INFORMAÇÕES
-	private JButton buttonSalvar;					// BOTÃO PARA SALVAR CADASTRO
-	private JButton buttonCancel;					// BOTÃO PARA CANCELAR O NOVO OU EDIÇÃO DO CADASTRO
+	private JTextArea areaInfo;								// ARÉA PARA DESCREVER INFORMAÇÕES
+	private JButton buttonSalvar;							// BOTÃO PARA SALVAR CADASTRO
+	private JButton buttonCancel;							// BOTÃO PARA CANCELAR O NOVO OU EDIÇÃO DO CADASTRO
 	
 	private LoginTO accountTO;
 	
@@ -54,7 +53,7 @@ public class FrameNewCadastreAccount extends JDialog {
 
 	private void init() {
 		setTitle("Cadastro de contas");
-		setSize(550, 260);
+		setSize(670, 300);
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setModal(true);	
@@ -128,9 +127,23 @@ public class FrameNewCadastreAccount extends JDialog {
 			
 			constraints.setConstraints(
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
+			/*ANCHOR*/ GridBagConstraints.WEST,
+			/*FILL*/ GridBagConstraints.NONE, 
+			/*GRIDX*/ GridBagConstraints.RELATIVE,
+			/*GRIDY*/ GridBagConstraints.RELATIVE,
+			/*GRIDWIDTH*/ 2,
+			/*GRIDHEIGTH*/ 1,
+			/*WEIGHTX*/ 0,
+			/*WEIGHTY*/ 0,
+			/*IPADX*/ 0,
+			/*IPADY*/ 0);
+			panelForm.add(getLabelInfo(), constraints);
+			
+			constraints.setConstraints(
+			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.EAST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ GridBagConstraints.RELATIVE,
+			/*GRIDY*/ 1,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
@@ -144,13 +157,13 @@ public class FrameNewCadastreAccount extends JDialog {
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.WEST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ GridBagConstraints.RELATIVE,
+			/*GRIDY*/ 1,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
 			/*WEIGHTX*/ 0,
 			/*WEIGHTY*/ 0,
-			/*IPADX*/ 200,
+			/*IPADX*/ 305,
 			/*IPADY*/ 0);
 			panelForm.add(getTextNomeAccount(), constraints);			
 			
@@ -158,7 +171,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.EAST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 1,
+			/*GRIDY*/ 2,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
@@ -172,13 +185,13 @@ public class FrameNewCadastreAccount extends JDialog {
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.WEST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 1,
+			/*GRIDY*/ 2,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
 			/*WEIGHTX*/ 0,
 			/*WEIGHTY*/ 0,
-			/*IPADX*/ 80,
+			/*IPADX*/ 120,
 			/*IPADY*/ 0);
 			panelForm.add(getTextInitialValue(), constraints);
 			
@@ -186,7 +199,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.EAST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 2,
+			/*GRIDY*/ 3,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
@@ -200,16 +213,16 @@ public class FrameNewCadastreAccount extends JDialog {
 			/*INSETS*/ new Insets(5, 5, 5, 5), 
 			/*ANCHOR*/ GridBagConstraints.WEST,
 			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 2,
+			/*GRIDY*/ 3,
 			/*GRIDX*/ GridBagConstraints.RELATIVE,
 			/*GRIDWIDTH*/ 1,
 			/*GRIDHEIGTH*/ 1,
 			/*WEIGHTX*/ 0,
 			/*WEIGHTY*/ 0,
-			/*IPADX*/ 80,
+			/*IPADX*/ 10,
 			/*IPADY*/ 0);
 			panelForm.add(getTextDateInitialValue(), constraints);
-			//panelForm.setBorder(new TitledBorder(new LineBorder(Color.GRAY, 1, false), "Nova conta"));
+			
 		}
 		return panelForm;
 	}
@@ -231,45 +244,34 @@ public class FrameNewCadastreAccount extends JDialog {
 		return panelButtons;
 	}
 	
+	private JLabel getLabelInfo () {
+		if (labelInfo == null) {
+			labelInfo = new JLabel("Campos com * (destacados em negrito) são obrigatórios.");
+			labelInfo.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
+		}
+		return labelInfo;
+	}
+	
 	private JLabel getLabelNomeAccont() {
 		if (labelNameAccont == null) {
-			labelNameAccont = new JLabel("Nome da conta:");
+			labelNameAccont = new JLabel("Nome da conta*");
+			labelNameAccont.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
 		}
 		return labelNameAccont;
 	}
 	
-	private JFormattedTextField getTextNomeAccount() {
+	private JTextField getTextNomeAccount() {
 		if (fieldNameAccount == null) {
-			fieldNameAccount = new JFormattedTextField();
-			
-			fieldNameAccount.addKeyListener(new KeyListener() {
-				
-				@Override
-				public void keyTyped(KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void keyReleased(KeyEvent arg0) {
-					
-					
-				}
-				
-				@Override
-				public void keyPressed(KeyEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
+			fieldNameAccount = new JTextField();
+			fieldNameAccount.setDocument(new FormatTextField(50));
 		}
 		return fieldNameAccount;
 	}
 
 	private JLabel getLabelInitialValue() {
 		if (labelInitialValue == null) {
-			labelInitialValue = new JLabel("Valor inicial:");
+			labelInitialValue = new JLabel("Valor inicial*");
+			labelInitialValue.setFont(new Font("", Font.BOLD | Font.ITALIC, 12));
 		}
 		return labelInitialValue;
 	}
@@ -284,7 +286,8 @@ public class FrameNewCadastreAccount extends JDialog {
 	
 	private JLabel getLabelDateInitialValue() {
 		if (labelDateInitialValue == null) {
-			labelDateInitialValue = new JLabel("Data de lançamento:");
+			labelDateInitialValue = new JLabel("Data de lançamento");
+			labelDateInitialValue.setFont(new Font("", Font.ITALIC, 12));
 		}
 		return labelDateInitialValue;
 	}
@@ -293,6 +296,7 @@ public class FrameNewCadastreAccount extends JDialog {
 		if (fieldDateInitialValue == null) {
 			FormatMaskField f = new FormatMaskField();
 			fieldDateInitialValue = new JFormattedTextField(f.getMaskDateField());
+			//fieldDateInitialValue.setBorder(new LineBorder(Color.BLACK, 2, false));
 			
 		}
 		return fieldDateInitialValue;
@@ -312,6 +316,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			areaInfo.setText(teste);
 			areaInfo.setBorder(new TitledBorder(new LineBorder(Color.GRAY, 1, false), "Informações"));
 			areaInfo.setEnabled(false);
+			areaInfo.setFont(new Font("", Font.PLAIN, 12));
 		}
 		return areaInfo;
 	}
