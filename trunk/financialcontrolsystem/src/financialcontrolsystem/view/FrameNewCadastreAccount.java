@@ -1,36 +1,8 @@
-/**
-Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the Balloon tip Developer Team nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE BALLOON TIP DEVELOPER TEAM BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package financialcontrolsystem.view;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -38,9 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.nio.Buffer;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -48,17 +18,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JToolTip;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.ColorUIResource;
-
-import com.jidesoft.swing.IconBorder;
-import com.jidesoft.tooltip.BalloonTip;
 
 import financialcontrolsystem.model.LoginTO;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
@@ -81,6 +44,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JLabel labelIconInitialValueInfo;
 	private JLabel labelDateInitialValue; 					// DATA DO VALOR INICIAL DA CONTA
 	private JFormattedTextField fieldDateInitialValue;		// CAMPO PARA INFORMAR A DATA EM QUE FOI INFORMADO O SALDO INICIAL
+	private JLabel labelIconDateInitialValue;
 	private JTextArea areaInfo;								// ARÉA PARA DESCREVER INFORMAÇÕES
 	private JButton buttonSalvar;							// BOTÃO PARA SALVAR CADASTRO
 	private JButton buttonCancel;							// BOTÃO PARA CANCELAR O NOVO OU EDIÇÃO DO CADASTRO
@@ -94,12 +58,23 @@ public class FrameNewCadastreAccount extends JDialog {
 
 	private void init() {
 		setTitle("Cadastro de contas");
-		setSize(700, 300);
+		setSize(750, 300);
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setModal(true);	
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				getOptionExit();
+			}
+		});
+		
 		panelMain = getContentPane();		
+		
+		
+		Color vermelhoEscuro = new Color(193, 205, 205);
+		panelMain.setBackground(vermelhoEscuro);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		Constraints constraints = new Constraints();
@@ -107,30 +82,23 @@ public class FrameNewCadastreAccount extends JDialog {
 		panelMain.setLayout(gridBagLayout);
 		
 		constraints.setInsets(new Insets(5, 5, 5, 5));
-		constraints.setFill(GridBagConstraints.HORIZONTAL);
 
 		constraints.setAnchor(GridBagConstraints.NORTHWEST);
 		constraints.setGridyGridx(0, 0);
-		constraints.setWeightyWeightx(1, 0);
+		constraints.setGridwidthGridheight(1, 1);
+		constraints.setWeightyWeightx(1, 1);
 		panelMain.add(getPanelInfo(), constraints);
 		
 		constraints.setAnchor(GridBagConstraints.NORTHEAST);
 		constraints.setGridyGridx(0, 1);
-		constraints.setWeightyWeightx(1, 0);
+		constraints.setGridwidthGridheight(1, 1);
+		constraints.setWeightyWeightx(1, 1);
 		panelMain.add(getPanelForm(), constraints);		
-				
-		constraints.setConstraints(
-		/*INSETS*/ new Insets(5, 5, 5, 5), 
-		/*ANCHOR*/ GridBagConstraints.SOUTHEAST,
-		/*FILL*/ GridBagConstraints.NONE, 
-		/*GRIDX*/ 1,
-		/*GRIDY*/ 1,
-		/*GRIDWIDTH*/ 1,
-		/*GRIDHEIGTH*/ 1,
-		/*WEIGHTX*/ 0,
-		/*WEIGHTY*/ 0,
-		/*IPADX*/ 0,
-		/*IPADY*/ 0);
+		
+		constraints.setAnchor(GridBagConstraints.SOUTHEAST);
+		constraints.setGridyGridx(1, 1);
+		constraints.setGridwidthGridheight(1, 1);
+		constraints.setWeightyWeightx(1, 1);
 		panelMain.add(getPanelButtons(), constraints);
 	
 	}
@@ -143,132 +111,78 @@ public class FrameNewCadastreAccount extends JDialog {
 
 			panelForm = new JPanel();
 			panelForm.setLayout(gridBagLayout);
+			panelForm.setBackground(Color.WHITE);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDX*/ 0,
-			/*GRIDY*/ 0,
-			/*GRIDWIDTH*/ 4,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setInsets(new Insets(5, 5, 5, 5));
+
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(0, 0);
+			constraints.setGridwidthGridheight(2, 1);
+			constraints.setWeightyWeightx(0, 0);
 			panelForm.add(getLabelInfo(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.EAST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 1,
-			/*GRIDX*/ 0,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(1, 0);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
 			panelForm.add(getLabelNomeAccont(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 1,
-			/*GRIDX*/ 1,
-			/*GRIDWIDTH*/ 2,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 300,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(1, 1);
+			constraints.setGridwidthGridheight(3, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(300, 0);
 			panelForm.add(getTextNomeAccount(), constraints);	
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDX*/ 1,
-			/*GRIDY*/ 3,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(1, 4);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(0, 0);
 			panelForm.add(getLabelIconNameAccountInfo(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.EAST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 2,
-			/*GRIDX*/ 0,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(2, 0);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(0, 0);
 			panelForm.add(getLabelInitialValue(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 2,
-			/*GRIDX*/ 1,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 120,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(2, 1);
+			constraints.setGridwidthGridheight(2, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(120, 0);
 			panelForm.add(getTextInitialValue(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDX*/ 2,
-			/*GRIDY*/ 2,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(2, 3);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(0, 0);
 			panelForm.add(getLabelIconInitialValueInfo(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.EAST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 3,
-			/*GRIDX*/ 0,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(3, 0);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(0, 0);
 			panelForm.add(getLabelDateInitialValue(), constraints);
 			
-			constraints.setConstraints(
-			/*INSETS*/ new Insets(5, 5, 5, 5), 
-			/*ANCHOR*/ GridBagConstraints.WEST,
-			/*FILL*/ GridBagConstraints.NONE, 
-			/*GRIDY*/ 3,
-			/*GRIDX*/ 1,
-			/*GRIDWIDTH*/ 1,
-			/*GRIDHEIGTH*/ 1,
-			/*WEIGHTX*/ 0,
-			/*WEIGHTY*/ 0,
-			/*IPADX*/ 0,
-			/*IPADY*/ 0);
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(3, 1);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(15, 0);
 			panelForm.add(getTextDateInitialValue(), constraints);
+			
+			constraints.setAnchor(GridBagConstraints.WEST);
+			constraints.setGridyGridx(3, 2);
+			constraints.setGridwidthGridheight(1, 1);
+			constraints.setWeightyWeightx(0, 0);
+			constraints.setIpadxIpadY(0, 0);
+			panelForm.add(getLabelIconDateInitialValue(), constraints);
+			
 			
 		}
 		return panelForm;
@@ -278,7 +192,7 @@ public class FrameNewCadastreAccount extends JDialog {
 		if (panelInfo == null) {
 			panelInfo = new JPanel();
 			panelInfo.add(getTextInfo());
-			panelInfo.setBorder(new LineBorder(Color.BLACK));
+			panelInfo.setBackground(Color.WHITE);
 		}
 		return panelInfo;
 	}
@@ -288,6 +202,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			panelButtons = new JPanel();
 			panelButtons.add(getButtonSave());
 			panelButtons.add(getButtonCancel());
+			panelButtons.setBackground(Color.WHITE);
 		}
 		return panelButtons;
 	}
@@ -322,7 +237,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
 			icon.setImage(icon.getImage());
 			labelIconNameAccountInfo = new JLabel(icon);
-			labelIconNameAccountInfo.setToolTipText("<html>Informe a descrição da conta</html>");
+			labelIconNameAccountInfo.setToolTipText("<html> Informe a descrição da conta </html>");
 		}
 		
 		return labelIconNameAccountInfo;
@@ -349,7 +264,7 @@ public class FrameNewCadastreAccount extends JDialog {
 			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
 			icon.setImage(icon.getImage());
 			labelIconInitialValueInfo = new JLabel(icon);
-			labelIconInitialValueInfo.setToolTipText("<html>Informe o valor para o lançamento inicial da conta"
+			labelIconInitialValueInfo.setToolTipText("<html> Informe o valor para o lançamento inicial da conta"
 													+ "<br> Exemplo: 100,00 ou 0,10 </html>");
 		}
 		return labelIconInitialValueInfo;
@@ -370,6 +285,17 @@ public class FrameNewCadastreAccount extends JDialog {
 			
 		}
 		return fieldDateInitialValue;
+	}
+	
+	private JLabel getLabelIconDateInitialValue() {
+		if (labelIconDateInitialValue == null) {
+			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
+			icon.setImage(icon.getImage());
+			labelIconDateInitialValue = new JLabel(icon);
+			labelIconDateInitialValue.setToolTipText("<html> Informe a data para o lançamento inicial da conta </html>");
+			
+		}
+		return labelIconDateInitialValue;
 	}
 	
 	private JTextArea getTextInfo() {
