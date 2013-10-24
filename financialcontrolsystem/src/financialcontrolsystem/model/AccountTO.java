@@ -1,20 +1,11 @@
 package financialcontrolsystem.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class AccountTO {
 
 	private int id;
 	private String name;
-	private Float initialValue;
-	private Date dateInitialValue;
-	private SimpleDateFormat sdf;
-
-	public AccountTO() {
-		sdf = new SimpleDateFormat("dd/MM/yyyy");
-	}
+	private boolean ativo;
+	private int tipo;
 
 	public int getId() {
 		return id;
@@ -32,26 +23,19 @@ public class AccountTO {
 		this.name = name;
 	}
 
-	public Float getInitialValue() {
-		return initialValue;
+	public boolean isAtivo() {
+		return ativo;
 	}
 
-	public void setInitialValue(Float initialValue) {
-		this.initialValue = initialValue;
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
-	public void setDateInitialValue(String dateInitialValue) {
-
-		try {
-			this.dateInitialValue = sdf.parse(dateInitialValue);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public int getTipo() {
+		return tipo;
 	}
 
-	public String getDateInitialValue() {
-		String dateInitialValue = sdf.format(this.dateInitialValue);
-		return dateInitialValue;
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
 	}
 }

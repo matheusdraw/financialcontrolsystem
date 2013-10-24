@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AccountDAO extends ConnectionDatabase {
+public class AccountDAO extends ConnectionDataBase {
 
 	private Connection connection = null;
 
