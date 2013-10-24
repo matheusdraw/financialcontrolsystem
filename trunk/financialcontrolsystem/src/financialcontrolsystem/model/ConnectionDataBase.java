@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-abstract class ConnectionDatabase {
+abstract class ConnectionDataBase {
 
 	private Connection connection = null;
 	private Statement statement = null;
 	
-	public ConnectionDatabase(){
+	public ConnectionDataBase(){
 		this.createConnection();	
 	}
 	

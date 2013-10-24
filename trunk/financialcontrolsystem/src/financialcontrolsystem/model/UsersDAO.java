@@ -1,5 +1,5 @@
 package financialcontrolsystem.model;
 
-public class UsersDAO extends ConnectionDatabase{
+public class UsersDAO extends ConnectionDataBase{
 
 }

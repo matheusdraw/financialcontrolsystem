@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class LoginDAO extends ConnectionDatabase {
+public class LoginDAO extends ConnectionDataBase {
 
 	private Connection connection = null;
 
