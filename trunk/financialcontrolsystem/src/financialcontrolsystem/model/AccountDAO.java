@@ -14,12 +14,13 @@ public class AccountDAO extends ConnectionDataBase {
 	public void createNewAccount(AccountTO accountTO) {
 
 		try {
-			String sqlNewAcc = "insert into contas (ativo, descricao) values (?, ?)";
+			String sqlNewAcc = "insert into contas (ativo, descricao, tipo) values (?, ?, ?)";
 			PreparedStatement statement = connection
 					.prepareStatement(sqlNewAcc);
 
 			statement.setBoolean(1, true);
 			statement.setString(2, accountTO.getName());
+			statement.setInt(3, accountTO.getTipo());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {

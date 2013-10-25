@@ -1,25 +1,28 @@
 package financialcontrolsystem.controller;
 
-import financialcontrolsystem.model.LoginDAO;
-import financialcontrolsystem.model.LoginTO;
+import financialcontrolsystem.model.AccountDAO;
 import financialcontrolsystem.view.FrameNewCadastreAccount;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
 
-public class FrameNewCadastreAccountControl implements FrameNewCadastreAccountActions {
+public class FrameCadastreNewAccControl implements FrameNewCadastreAccountActions {
 	
-	private LoginDAO accountDAO;
+	private AccountDAO accountDAO;
 	private FrameNewCadastreAccount frameNewCadastreAccount;
 	
+	public String[] getAccTypes(){
+		String accTypes [] = {"Carteira","Conta Corrente","Poupança"};
+		return accTypes;
+	}
 	
 	public void initializeFrameNewCadastreAccount (){
-		accountDAO = new LoginDAO();
+		accountDAO = new AccountDAO();
 		frameNewCadastreAccount = new FrameNewCadastreAccount(this);
 		frameNewCadastreAccount.setVisible(true);		
 	}
 
 	@Override
-	public void buttonSave(LoginTO loginTO) {
-		accountDAO.insertNewLogin(loginTO);
+	public void buttonSave(AccountDAO accountTO) {
+		accountDAO.insertNewLogin(accountTO);
 	}
 	
 }
