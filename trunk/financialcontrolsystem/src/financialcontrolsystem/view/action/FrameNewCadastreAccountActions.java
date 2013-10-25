@@ -1,9 +1,10 @@
 package financialcontrolsystem.view.action;
 
-import financialcontrolsystem.model.LoginTO;
+import financialcontrolsystem.model.AccountTO;
+
 
 public interface FrameNewCadastreAccountActions {
 
-	public void buttonSave(LoginTO accountTO);
+	public void buttonSave(AccountTO accountTO);
 	
 }

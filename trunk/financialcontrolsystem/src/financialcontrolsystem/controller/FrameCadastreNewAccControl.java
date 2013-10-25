@@ -1,6 +1,7 @@
 package financialcontrolsystem.controller;
 
 import financialcontrolsystem.model.AccountDAO;
+import financialcontrolsystem.model.AccountTO;
 import financialcontrolsystem.view.FrameNewCadastreAccount;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
 
@@ -21,8 +22,8 @@ public class FrameCadastreNewAccControl implements FrameNewCadastreAccountAction
 	}
 
 	@Override
-	public void buttonSave(AccountDAO accountTO) {
-		accountDAO.insertNewLogin(accountTO);
+	public void buttonSave(AccountTO accountTO) {
+		accountDAO.createNewAccount(accountTO);
 	}
 	
 }
