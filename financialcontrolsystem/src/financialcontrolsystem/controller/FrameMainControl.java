@@ -13,7 +13,7 @@ import financialcontrolsystem.view.action.FrameMainActions;
 public class FrameMainControl implements FrameMainActions {
 	
 	private FrameMain frameMain;
-	private FrameNewCadastreAccountControl frameNewCadastreAccountControl;
+	private FrameCadastreNewAccControl frameNewCadastreAccountControl;
 
 	public void initializeFrameMain() {
 		
@@ -57,7 +57,7 @@ public class FrameMainControl implements FrameMainActions {
 
 	@Override
 	public void itemNewAccount() {
-		frameNewCadastreAccountControl = new FrameNewCadastreAccountControl();
+		frameNewCadastreAccountControl = new FrameCadastreNewAccControl();
 		frameNewCadastreAccountControl.initializeFrameNewCadastreAccount();
 	}
 }
