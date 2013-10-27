@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import financialcontrolsystem.model.AccountTO;
 import financialcontrolsystem.model.LoginTO;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
 
@@ -49,7 +50,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	private JButton buttonSalvar;							// BOTÃO PARA SALVAR CADASTRO
 	private JButton buttonCancel;							// BOTÃO PARA CANCELAR O NOVO OU EDIÇÃO DO CADASTRO
 	
-	private LoginTO accountTO;
+	private AccountTO accountTO;
 	
 	public FrameNewCadastreAccount(FrameNewCadastreAccountActions frameNewCadastreAccountActions) {
 		this.frameNewCadastreAccountActions = frameNewCadastreAccountActions;
@@ -357,10 +358,10 @@ public class FrameNewCadastreAccount extends JDialog {
 	}
 	
 	public void actionButtonSave() {
-		accountTO = new LoginTO();
-		accountTO.setNameAccount(fieldNameAccount.getText());
-		accountTO.setInitialValue(Float.parseFloat(fieldInitialValue.getText()));
-		accountTO.setDateInitialValue(fieldDateInitialValue.getText());		
+		accountTO = new AccountTO();
+		accountTO.setName(fieldNameAccount.getText());
+		//accountTO.setInitialValue(Float.parseFloat(fieldInitialValue.getText()));
+		//accountTO.setDateInitialValue(fieldDateInitialValue.getText());		
 		frameNewCadastreAccountActions.buttonSave(accountTO);
 	}
 	
