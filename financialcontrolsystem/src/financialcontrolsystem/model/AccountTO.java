@@ -6,6 +6,8 @@ public class AccountTO {
 	private String name;
 	private boolean ativo;
 	private int tipo;
+	private int cc;
+	private int ag;
 
 	public int getId() {
 		return id;
@@ -37,5 +39,21 @@ public class AccountTO {
 
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
+	}
+
+	public int getCc() {
+		return cc;
+	}
+
+	public void setCc(int cc) {
+		this.cc = cc;
+	}
+
+	public int getAg() {
+		return ag;
+	}
+
+	public void setAg(int ag) {
+		this.ag = ag;
 	}
 }

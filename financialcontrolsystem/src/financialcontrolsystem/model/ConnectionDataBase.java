@@ -10,10 +10,6 @@ abstract class ConnectionDataBase {
 	private Connection connection = null;
 	private Statement statement = null;
 	
-	public ConnectionDataBase(){
-		this.createConnection();	
-	}
-	
 	protected Connection createConnection() {
 		String url = "jdbc:postgresql://localhost:5432/financialdb";
 		String user = "postgres";
