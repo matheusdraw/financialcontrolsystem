@@ -1,6 +1,5 @@
 package financialcontrolsystem.controller;
 
-import financialcontrolsystem.model.LoginDAO;
 import financialcontrolsystem.view.ViewTest;
 
 public class Runner {

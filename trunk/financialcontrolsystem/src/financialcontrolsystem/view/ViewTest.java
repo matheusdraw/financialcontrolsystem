@@ -1,6 +1,9 @@
 package financialcontrolsystem.view;
 
+import java.util.List;
 import java.util.Scanner;
+
+import financialcontrolsystem.controller.AccountController;
 import financialcontrolsystem.model.AccountDAO;
 import financialcontrolsystem.model.AccountTO;
 import financialcontrolsystem.model.CcTO;
@@ -14,29 +17,51 @@ public class ViewTest {
 		
 		System.out.println("Opções:");
 		System.out.println("1 - Adicionar Nova Conta");
+		System.out.println("2 - Listar Todas as Contas");
 		option = input.nextInt();
 		
 		switch(option){
-		case 1: newAcc();
+			case 1: newAcc();
+			case 2:listAllAcc();
 		}
 	}
 	
+	private void listAllAcc() {
+		AccountController acc = new AccountController();
+		List<AccountTO> accounts = acc.listAccounts();
+		
+		for(AccountTO account : accounts){
+			
+			System.out.println("--------------------------");	
+			System.out.println("ID: " + account.getId());
+			System.out.println("Conta: " + account.getName());
+			System.out.println("Tipo: " + account.getTipo());
+			
+			if(account.getTipo() == 2){
+				System.out.println("Conta Corrente: " + account.getCc());
+				System.out.println("Agência: " + account.getAg());
+			
+			}
+			System.out.println("--------------------------");
+		}
+	}
+
 	private void newAcc() {
 		AccountTO accTO = new AccountTO();
-		AccountDAO accDAO = new AccountDAO();
+		AccountController acc = new AccountController();
 		
 		System.out.println("Nome:");
 		accTO.setName(getString());
 		System.out.println("Tipo: 1-Carteira 2-Conta Corrente 3-Poupança");
 		accTO.setTipo(input.nextInt());
 		
-		if (accTO.getTipo() == 3) {
+		if (accTO.getTipo() == 2) {
 			System.out.println("Conta Corrente:");
 			accTO.setCc(input.nextInt());
 			System.out.println("Agência:");
 			accTO.setAg(input.nextInt());
 		}
-		accDAO.createNewAccount(accTO);
+		acc.createAccount(accTO);
 	}
 
 	/*private void delete(OrderTO ped) {
