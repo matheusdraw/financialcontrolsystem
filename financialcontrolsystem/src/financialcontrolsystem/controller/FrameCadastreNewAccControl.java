@@ -16,7 +16,7 @@ public class FrameCadastreNewAccControl implements FrameNewCadastreAccountAction
 	}
 	
 	public void initializeFrameNewCadastreAccount (){
-		accountDAO = new AccountDAO();
+		//accountDAO = new AccountDAO();
 		frameNewCadastreAccount = new FrameNewCadastreAccount(this);
 		frameNewCadastreAccount.setVisible(true);		
 	}
