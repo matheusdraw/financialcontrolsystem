@@ -6,6 +6,7 @@ import javax.swing.text.PlainDocument;
 
 public class FormatTextField extends PlainDocument {
 
+	private static final long serialVersionUID = 1L;
 	private int size;
 	
 	public FormatTextField(int size) {
