@@ -2,7 +2,6 @@ package financialcontrolsystem.view;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.GradientPaint;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,9 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
 import financialcontrolsystem.model.AccountTO;
-import financialcontrolsystem.model.LoginTO;
 import financialcontrolsystem.view.action.FrameNewCadastreAccountActions;
 
 public class FrameNewCadastreAccount extends JDialog {
@@ -235,7 +231,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	
 	private JLabel getLabelIconNameAccountInfo() {
 		if (labelIconNameAccountInfo == null) {
-			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
+			ImageIcon icon = new ImageIcon(getClass().getResource("/financialcontrolsystem/icons/icon-info.png"));
 			icon.setImage(icon.getImage());
 			labelIconNameAccountInfo = new JLabel(icon);
 			labelIconNameAccountInfo.setToolTipText("<html> Informe a descrição da conta </html>");
@@ -262,7 +258,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	
 	private JLabel getLabelIconInitialValueInfo() {
 		if (labelIconInitialValueInfo == null) {
-			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
+			ImageIcon icon = new ImageIcon(getClass().getResource("/financialcontrolsystem/icons/icon-info.png"));
 			icon.setImage(icon.getImage());
 			labelIconInitialValueInfo = new JLabel(icon);
 			labelIconInitialValueInfo.setToolTipText("<html> Informe o valor para o lançamento inicial da conta"
@@ -290,7 +286,7 @@ public class FrameNewCadastreAccount extends JDialog {
 	
 	private JLabel getLabelIconDateInitialValue() {
 		if (labelIconDateInitialValue == null) {
-			ImageIcon icon = new ImageIcon(getClass().getResource("icon-info.png"));
+			ImageIcon icon = new ImageIcon(getClass().getResource("/financialcontrolsystem/icons/icon-info.png"));
 			icon.setImage(icon.getImage());
 			labelIconDateInitialValue = new JLabel(icon);
 			labelIconDateInitialValue.setToolTipText("<html> Informe a data para o lançamento inicial da conta </html>");
