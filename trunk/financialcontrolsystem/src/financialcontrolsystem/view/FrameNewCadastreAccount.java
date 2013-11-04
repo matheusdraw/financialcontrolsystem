@@ -58,8 +58,8 @@ public class FrameNewCadastreAccount extends JDialog {
 		setSize(750, 300);
 		setLocationRelativeTo(null);
 		setResizable(true);
-		setModal(true);	
-
+		setModal(true);
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

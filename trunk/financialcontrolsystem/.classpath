@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/postgresql-jdbc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/postgres"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hibernate"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/postgresql-9.3-jdbc41"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
