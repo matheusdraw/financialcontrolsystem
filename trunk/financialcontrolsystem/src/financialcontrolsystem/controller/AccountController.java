@@ -2,24 +2,30 @@ package financialcontrolsystem.controller;
 
 import java.util.List;
 
+import financialcontrolsystem.model.Account;
 import financialcontrolsystem.model.AccountDAO;
-import financialcontrolsystem.model.AccountTO;
+import financialcontrolsystem.model.AccountType;
 
 public class AccountController {
 	
 	private AccountDAO accDAO;
 	
-	public void createAccount(AccountTO accountTO){
+	public void createAccount(Account account){
 		accDAO = new AccountDAO();
-		accDAO.createNewAccount(accountTO);
+		accDAO.createNewAccount(account);
+	}
+
+	public List<AccountType> getAccTypes() {
+		accDAO = new AccountDAO();
+		return accDAO.listTypes();
 	}
 	
-	public List<AccountTO> listAccounts(){
+	/*public List<Account> listAccounts(){
 		accDAO = new AccountDAO();
-		List<AccountTO> accounts;
+		List<Account> accounts;
 		
 		accounts = accDAO.listAllAccounts();
 		
 		return accounts;
-	}
+	}*/
 }

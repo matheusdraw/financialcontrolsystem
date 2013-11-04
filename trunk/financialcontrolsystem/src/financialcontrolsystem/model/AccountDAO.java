@@ -1,18 +1,32 @@
 package financialcontrolsystem.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
+import model.Estado;
 
 public class AccountDAO extends ConnectionDataBase {
 
-	private Connection connection = null;
+	
+	private EntityManager manager = null;
+	private EntityManagerFactory factory = null;
+	
+	public boolean createNewAccount(Account acc){
+		
+		
+		return false;
+	}
+	
+	public List<AccountType> listTypes() {
+		Query query = manager.createQuery(" SELECT e FROM Estado e");
+		List<AccountType> accTypes = query.getResultList();
+		
+		return accTypes;
+	}
+	/*private Connection connection = null;
 	private Statement statement = null;
 	
 	public AccountDAO(){
@@ -213,5 +227,6 @@ public class AccountDAO extends ConnectionDataBase {
 		}else{
 			return false;
 		}
-	}
+	}*/
+
 }
