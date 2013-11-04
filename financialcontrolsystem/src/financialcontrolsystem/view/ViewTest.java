@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import financialcontrolsystem.controller.AccountController;
+import financialcontrolsystem.model.Account;
 import financialcontrolsystem.model.AccountDAO;
-import financialcontrolsystem.model.AccountTO;
+import financialcontrolsystem.model.AccountType;
 import financialcontrolsystem.model.CcTO;
 
 // esta view é apenas para teste do banco de dados.
@@ -22,15 +23,15 @@ public class ViewTest {
 		
 		switch(option){
 			case 1: newAcc();
-			case 2:listAllAcc();
+			//case 2:listAllAcc();
 		}
 	}
 	
-	private void listAllAcc() {
+	/*private void listAllAcc() {
 		AccountController acc = new AccountController();
-		List<AccountTO> accounts = acc.listAccounts();
+		List<Account> accounts = acc.listAccounts();
 		
-		for(AccountTO account : accounts){
+		for(Account account : accounts){
 			
 			System.out.println("--------------------------");	
 			System.out.println("ID: " + account.getId());
@@ -44,16 +45,23 @@ public class ViewTest {
 			}
 			System.out.println("--------------------------");
 		}
-	}
+	}*/
 
 	private void newAcc() {
-		AccountTO accTO = new AccountTO();
-		AccountController acc = new AccountController();
+		Account acc = new Account();
+		AccountController controller = new AccountController();
+		List<AccountType> accTypes;
 		
 		System.out.println("Nome:");
-		accTO.setName(getString());
-		System.out.println("Tipo: 1-Carteira 2-Conta Corrente 3-Poupança");
-		accTO.setTipo(input.nextInt());
+		acc.setDescricao(getString());
+		accTypes = controller.getAccTypes();
+		
+		System.out.println("Selecione um tipo:");
+		for(AccountType t : accTypes){
+			System.out.println(t.getId() + "." + t.getDescricao());
+		}
+		
+		acc.setTipo(input.nextInt());
 		
 		if (accTO.getTipo() == 2) {
 			System.out.println("Conta Corrente:");

@@ -1,13 +1,21 @@
 package financialcontrolsystem.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 abstract class ConnectionDataBase {
 
-	private Connection connection = null;
+	private EntityManager manager = null;
+	private EntityManagerFactory factory = null;
+	
+	protected ConnectionDataBase(){
+		EntityManagerFactory factory = Persistence
+				.createEntityManagerFactory("financialdb");
+		manager = factory.createEntityManager();
+	}
+	
+	/*private Connection connection = null;
 	private Statement statement = null;
 	
 	protected Connection createConnection() {
@@ -44,5 +52,5 @@ abstract class ConnectionDataBase {
 			// se houve algum erro, uma exceção é gerada para informar o erro.
 			System.out.println("Error: " + e.getMessage());
 		}
-	}
+	}*/
 }
