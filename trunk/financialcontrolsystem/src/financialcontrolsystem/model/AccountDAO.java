@@ -8,26 +8,57 @@ public class AccountDAO extends ConnectionDataBase {
 
 	public boolean createNewAccount(Account acc) {
 		try {
-			manager.persist(acc);
 			manager.getTransaction().begin();
+			manager.persist(acc);
 			manager.getTransaction().commit();
 			manager.close();
 		} catch (Exception e) {
+			System.out.println("Erro:" + e.getMessage()); 
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public List<AccountType> listTypes() {
 		try {
-			Query query = manager.createQuery(" SELECT t FROM AccountType t");
+			Query query = manager.createQuery("SELECT t FROM AccountType t");
 			List<AccountType> accTypes = query.getResultList();
 			return accTypes;
 		} catch (Exception e) {
+			System.out.println("Erro:" + e.getMessage()); 
 			e.printStackTrace();
 		}
 		return null;
 	}
+
+	public List<Account> listAccounts() {
+		try {
+			Query query = manager.createQuery("SELECT a FROM Account a WHERE a.ativo = true");
+			List<Account> accounts = query.getResultList();
+			return accounts;
+		} catch (Exception e) {
+			System.out.println("Erro:" + e.getMessage()); 
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public boolean delAccount(Account account) {
+		try {
+			manager.getTransaction().begin();
+			manager.merge(account);
+			manager.getTransaction().commit();
+			manager.close();
+			return true;
+		} catch (Exception e) {
+			System.out.println("Erro:" + e.getMessage()); 
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 	/*
 	 * private Connection connection = null; private Statement statement = null;
 	 * 
@@ -35,71 +66,6 @@ public class AccountDAO extends ConnectionDataBase {
 	 * 
 	 * try { statement = getStatement(); } catch (SQLException e) {
 	 * System.out.println("Erro:" + e.getMessage()); e.printStackTrace(); } }
-	 * 
-	 * // Adiciona uma nova conta. public void createNewAccount(AccountTO
-	 * accountTO) {
-	 * 
-	 * try { String sqlNewAcc =
-	 * "insert into contas (ativo, nome, tipo) values (?, ?, ?) returning id";
-	 * PreparedStatement statement = connection.prepareStatement(sqlNewAcc);
-	 * 
-	 * statement.setBoolean(1, true); statement.setString(2,
-	 * accountTO.getName()); statement.setInt(3, accountTO.getTipo());
-	 * 
-	 * ResultSet rs = statement.executeQuery();
-	 * 
-	 * while(rs.next()){ accountTO.setId(rs.getInt("id")); }
-	 * 
-	 * 
-	 * } catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); }
-	 * 
-	 * this.setAccType(accountTO); }
-	 * 
-	 * //Verifica o tipo da conta e adiciona na tabela correta. private void
-	 * setAccType(AccountTO accountTO){
-	 * 
-	 * if (accountTO.getTipo() == 1) { String sqlSetType =
-	 * "insert into carteira (idcontas) values (?)";
-	 * 
-	 * try { PreparedStatement statement =
-	 * connection.prepareStatement(sqlSetType);
-	 * 
-	 * statement.setInt(1, accountTO.getId()); statement.executeUpdate();
-	 * 
-	 * } catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); } try { statement.close(); connection.close(); }
-	 * catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 * 
-	 * if (accountTO.getTipo() == 2) { String sqlSetType =
-	 * "insert into contacorrente (idcontas, cc, agencia) values (?, ?, ?)"; try
-	 * { PreparedStatement statement = connection.prepareStatement(sqlSetType);
-	 * 
-	 * statement.setInt(1, accountTO.getId()); statement.setInt(2,
-	 * accountTO.getCc()); statement.setInt(3, accountTO.getAg());
-	 * statement.executeUpdate();
-	 * 
-	 * } catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); }
-	 * 
-	 * try { connection.close(); statement.close(); } catch (SQLException e) {
-	 * System.out.println("Erro:" + e.getMessage()); e.printStackTrace(); } }
-	 * 
-	 * if (accountTO.getTipo() == 3) { String sqlSetType =
-	 * "insert into poupanca (idcontas) values (?)"; try { PreparedStatement
-	 * statement = connection.prepareStatement(sqlSetType);
-	 * 
-	 * statement.setInt(1, accountTO.getId()); statement.executeUpdate();
-	 * 
-	 * } catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); } try { statement.close(); connection.close(); }
-	 * catch (SQLException e) { System.out.println("Erro:" + e.getMessage());
-	 * e.printStackTrace(); }
-	 * 
-	 * } }
 	 * 
 	 * // Retorna todas as contas. public List<AccountTO> listAllAccounts() {
 	 * AccountTO accountTO = new AccountTO(); List<AccountTO> accounts = new
