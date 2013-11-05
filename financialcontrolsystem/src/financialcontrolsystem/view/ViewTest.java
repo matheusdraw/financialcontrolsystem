@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import financialcontrolsystem.controller.AccountController;
+
 import financialcontrolsystem.model.Account;
 import financialcontrolsystem.model.AccountDAO;
+
 import financialcontrolsystem.model.AccountType;
-import financialcontrolsystem.model.CcTO;
 
 // esta view é apenas para teste do banco de dados.
 public class ViewTest {
@@ -50,26 +51,36 @@ public class ViewTest {
 	private void newAcc() {
 		Account acc = new Account();
 		AccountController controller = new AccountController();
+		int id;
 		List<AccountType> accTypes;
 		
+		acc.setAtivo(true);
 		System.out.println("Nome:");
 		acc.setDescricao(getString());
 		accTypes = controller.getAccTypes();
 		
 		System.out.println("Selecione um tipo:");
+		System.out.println("--------------------------");
 		for(AccountType t : accTypes){
 			System.out.println(t.getId() + "." + t.getDescricao());
+			System.out.println("--------------------------");
 		}
 		
-		acc.setTipo(input.nextInt());
+		id = input.nextInt();
 		
-		if (accTO.getTipo() == 2) {
+		if (id == 2) {
 			System.out.println("Conta Corrente:");
-			accTO.setCc(input.nextInt());
+			acc.setCc(input.nextInt());
 			System.out.println("Agência:");
-			accTO.setAg(input.nextInt());
+			acc.setAg(input.nextInt());
 		}
-		acc.createAccount(accTO);
+		
+		for(AccountType t : accTypes){
+			if(t.getId() == id){
+				acc.setTipo(t);
+			}
+		}
+		controller.createAccount(acc);
 	}
 
 	/*private void delete(OrderTO ped) {

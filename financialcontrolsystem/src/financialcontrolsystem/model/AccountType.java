@@ -7,9 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -26,7 +31,9 @@ public class AccountType implements Serializable{
 	@Column
 	private String descricao;
 	
-	@OneToMany(mappedBy="Account", targetEntity=Account.class)
+	@OneToMany(mappedBy="tipo", targetEntity=Account.class)
+	@Fetch(FetchMode.JOIN)  
+	@Cascade(CascadeType.ALL)  
 	private List<Account> contas;
 	
 

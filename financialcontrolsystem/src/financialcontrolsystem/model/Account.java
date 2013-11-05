@@ -4,19 +4,24 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
+
+import financialcontrolsystem.model.AccountType;
 
 
 @Entity
 @Table(name="contas", uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"nome"})})
+		@UniqueConstraint(columnNames = {"descricao"})})
 
 public class Account implements Serializable{
 	static final long serialVersionUID = 1L;
@@ -29,12 +34,12 @@ public class Account implements Serializable{
 	@Column
 	private String descricao;
 	
-	@Column
+	@Column(nullable = true)
 	private boolean ativo;
 	
-	@Column
-	@OneToMany
+	@ManyToOne(fetch = FetchType.EAGER)  
 	@JoinColumn(name="tipo_conta")
+	@Fetch(FetchMode.JOIN) 
 	private AccountType tipo;
 	
 	@Column

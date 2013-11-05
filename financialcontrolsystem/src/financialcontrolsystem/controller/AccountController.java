@@ -8,15 +8,13 @@ import financialcontrolsystem.model.AccountType;
 
 public class AccountController {
 	
-	private AccountDAO accDAO;
+	private AccountDAO accDAO = new AccountDAO();
 	
 	public void createAccount(Account account){
-		accDAO = new AccountDAO();
 		accDAO.createNewAccount(account);
 	}
 
 	public List<AccountType> getAccTypes() {
-		accDAO = new AccountDAO();
 		return accDAO.listTypes();
 	}
 	
