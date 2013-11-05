@@ -6,12 +6,11 @@ import javax.persistence.Persistence;
 
 abstract class ConnectionDataBase {
 
-	private EntityManager manager = null;
-	private EntityManagerFactory factory = null;
+	protected EntityManager manager = null;
+	protected EntityManagerFactory factory = null;
 	
 	protected ConnectionDataBase(){
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("financialdb");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("financialdb");
 		manager = factory.createEntityManager();
 	}
 	
