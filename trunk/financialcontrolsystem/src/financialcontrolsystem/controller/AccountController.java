@@ -5,26 +5,28 @@ import java.util.List;
 import financialcontrolsystem.model.Account;
 import financialcontrolsystem.model.AccountDAO;
 import financialcontrolsystem.model.AccountType;
+import financialcontrolsystem.model.bi.AccountBI;
 
 public class AccountController {
 	
 	private AccountDAO accDAO = new AccountDAO();
+	private AccountBI accBI = new AccountBI();
 	
 	public boolean createAccount(Account account){
-		return accDAO.createNewAccount(account);
+		return accDAO.create(account);
 	}
 
 	public List<AccountType> getAccTypes() {
-		return accDAO.listTypes();
+		return accBI.listTypes();
 	}
 
 	public List<Account> listAccounts() {
-		return accDAO.listAccounts();
+		return accBI.listAccounts();
 	}
 
 	public boolean delAccount(Account account) {
 		account.setAtivo(false);
-		return accDAO.delAccount(account);
+		return accDAO.delete(account);
 		
 	}
 }

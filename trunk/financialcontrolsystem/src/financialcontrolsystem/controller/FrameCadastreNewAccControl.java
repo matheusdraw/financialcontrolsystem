@@ -23,7 +23,7 @@ public class FrameCadastreNewAccControl implements FrameNewCadastreAccountAction
 
 	@Override
 	public void buttonSave(AccountTO accountTO) {
-		accountDAO.createNewAccount(accountTO);
+		accountDAO.create(accountTO);
 	}
 	
 }
