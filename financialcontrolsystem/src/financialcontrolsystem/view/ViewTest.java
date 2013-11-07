@@ -4,10 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import financialcontrolsystem.controller.AccountController;
-
 import financialcontrolsystem.model.Account;
-
 import financialcontrolsystem.model.AccountType;
+import financialcontrolsystem.model.bi.AccountBI;
 
 // esta view é apenas para teste do banco de dados.
 public class ViewTest {
@@ -90,18 +89,20 @@ public class ViewTest {
 
 	private void newAcc() {
 		Account acc = new Account();
+		AccountBI bi = new AccountBI();
 		AccountController controller = new AccountController();
 		int id;
 		boolean flag;
 		List<AccountType> accTypes;
 
 		acc.setAtivo(true);
+		
 		System.out.println("Nome:");
 		acc.setDescricao(getString());
-		accTypes = controller.getAccTypes();
-
+		
 		System.out.println("Selecione um tipo:");
 		System.out.println("--------------------------");
+		accTypes = controller.getAccTypes();
 		for (AccountType t : accTypes) {
 			System.out.println(t.getId() + "." + t.getDescricao());
 			System.out.println("--------------------------");
