@@ -1,0 +1,1 @@
+Sistema para controlar lançamentos financeiros, contas a receber e contas a pagar.
